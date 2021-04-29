@@ -2,14 +2,15 @@ import { useAuth } from "../../context/auth_context";
 import { Form, Input } from "antd";
 import { IAuthParams } from "../../api/auth_provider";
 import { LongButton } from "./index";
+import { useAsync } from "../../utils/use-async";
 
-const Login = () => {
+const Login = ({ onError }: { onError: (error: Error) => void }) => {
   const { login, user } = useAuth();
-
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
   const onSubmit = (values: IAuthParams) => {
-    console.log(values);
-    login(values);
+    run(login(values)).catch(onError);
   };
+
   const Item = Form.Item;
   return (
     <Form onFinish={onSubmit} name="basic" style={{ marginTop: "20px" }}>
@@ -28,7 +29,7 @@ const Login = () => {
         <Input.Password id="password" placeholder={"请输入密码"} />
       </Item>
       <Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton type="primary" htmlType="submit" loading={isLoading}>
           登录
         </LongButton>
       </Item>

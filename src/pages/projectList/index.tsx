@@ -1,37 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import SearchList from "./components/SearchList";
 import SearchPanel from "./components/SearchPanel";
-import { useDebounce, cleanObject, useMount } from "../../utils";
-import { useHttp } from "../../utils/http";
+import { useDebounce } from "../../utils";
 import styled from "@emotion/styled";
+import { Typography } from "antd";
+import { useUsers } from "./user";
+import { useProject } from "./project";
 
 const ProjectList = () => {
   const [param, setParam] = useState({ name: "", personId: "" });
-  const [users, setUsers] = useState([]);
-  const [lists, setLists] = useState([]);
-
-  const debounceParam = useDebounce(param, 500);
-  const httpFetch = useHttp();
-
-  useMount(() => {
-    httpFetch("users").then(setUsers);
-  });
-
-  useEffect(() => {
-    httpFetch("projects", { data: cleanObject(debounceParam) }).then(setLists);
-    // eslint-disable-next-line
-  }, [debounceParam]);
+  const debounceParam = useDebounce(param, 200);
+  const { error, isLoading, data: lists } = useProject(debounceParam);
+  const { data: users } = useUsers();
 
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel users={users} param={param} setParam={setParam} />
-      <SearchList list={lists} users={users} />
+      <SearchPanel users={users || []} param={param} setParam={setParam} />
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <SearchList
+        dataSource={lists || []}
+        users={users || []}
+        loading={isLoading}
+      />
     </Container>
   );
 };
-
 const Container = styled.div`
   padding-left: 0.32rem;
   padding-right: 0.32rem;

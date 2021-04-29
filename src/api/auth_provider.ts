@@ -31,7 +31,7 @@ export const login = (data: IAuthParams) => {
     if (res && res.ok) {
       return handleUserResponse(await res.json());
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await res.json());
     }
   });
 };
@@ -51,7 +51,7 @@ export const register = (data: IAuthParams) => {
     if (res && res.ok) {
       return handleUserResponse(await res.json());
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await res.json());
     }
   });
 };

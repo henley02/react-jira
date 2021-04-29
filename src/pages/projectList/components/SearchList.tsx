@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import { IUser } from "./SearchPanel";
 import dayjs from "dayjs";
 
-interface IProject {
+export interface IProject {
   id: string;
   name: string;
   personId: string;
@@ -12,17 +12,14 @@ interface IProject {
   created: number;
 }
 
-interface ISearchListProps {
-  list: IProject[];
+interface ISearchListProps extends TableProps<IProject> {
   users: IUser[];
 }
 
-const SearchList: FC<ISearchListProps> = (props) => {
-  const { list, users } = props;
+const SearchList: FC<ISearchListProps> = ({ users, ...props }) => {
   return (
     <Table
       pagination={false}
-      dataSource={list}
       rowKey="id"
       columns={[
         {
@@ -55,6 +52,7 @@ const SearchList: FC<ISearchListProps> = (props) => {
           },
         },
       ]}
+      {...props}
     />
   );
 };
