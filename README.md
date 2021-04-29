@@ -1,9 +1,9 @@
-commit: https://github.com/conventional-changelog/commitlint
-build
+commit: https://github.com/conventional-changelog/commitlint  
+build  
 ci
 chore
 docs:更新文档
-feat:添加新的功能
+feat:添加新的功能  
 fix
 perf:提升了性能
 refactor
