@@ -7,6 +7,7 @@ import { ReactComponent as SoftwareLogo } from "./../../assets/software-logo.svg
 
 const AuthenticatedApp = () => {
   const { logout, user } = useAuth();
+
   return (
     <Container>
       <Header between>

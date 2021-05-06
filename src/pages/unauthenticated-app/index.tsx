@@ -11,11 +11,11 @@ import right from "./../../assets/right.svg";
 const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+
   return (
     <Container>
       <Header />
       <Background />
-
       <ShadowCard>
         <Title>{isRegister ? "注  册" : "登  录"}</Title>
         {error ? (
